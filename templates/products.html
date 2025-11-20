@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <title>ToyMarket</title>
+    </head>
+    <body>
+        <img src="{{ url_for('static', filename='assets/logo.png') }}">
+        {% for product in products %}
+        
+            {% if product.count == 0 %}
+                <div class="NoProduct">
+                    <img src="{{ url_for('static', filename='images/' ~ product.id ~ '.jpg') }}" class="product_img" alt="{{ product.name }}">
+                    <div class="product_disc">
+                        <p><b>Наименование:</b> {{product.name}}</p>
+                        <p><b>На складе:</b> {{product.count}} (нет в наличии)</p>
+                    </div>
+                </div>
+            {% elif product.sale > 15 %}
+                <div class="productWithSale">
+                    <img src="{{ url_for('static', filename='images/' ~ product.id ~ '.jpg') }}" class="product_img" alt="{{ product.name }}">
+                    <div class="product_disc">
+                        <p><b>Наименование:</b> {{product.name}}</p>
+                        <p><b>Цена:</b> {{product.cost}} <!-- {{product.cost_with_sale}} --> ₽</p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="productCard">
+                    <img src="{{ url_for('static', filename='images/' ~ product.id ~ '.jpg') }}" class="product_img" alt="{{ product.name }}">
+                    <div class="product_disc">
+                        <p><b>Наименование:</b> {{product.name}}</p>
+                        <p><b>Категория:</b> {{product.category}}</p>
+                        <p><b>Производитель:</b> {{product.maker}}</p>
+                        <p><b>Поставщик:</b> {{product.provider}}</p>
+                        <p><b>Цена:</b> {{product.cost}} ₽</p>
+                        <p><b>Еденица:</b> {{product.unit}}.</p>
+                        <p><b>На складе:</b> {{product.count}}</p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </body>
+</html>

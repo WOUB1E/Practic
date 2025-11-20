@@ -14,9 +14,36 @@ class Role(enum.Enum):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.Enum(Role), default=Role.USER, nullable=False)
+
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    article = db.Column(db.Integer, nullable=False)
+    date_order = db.Column(db.DateTime, nullable=False)
+    date_delivery = db.Column(db.DateTime, nullable=False)
+    delivery_point_id = db.Column(db.Integer, nullable=False)
+    delivery_adress = db.Column(db.String(255), nullable=False)
+    client_name = db.Column(db.String(255), nullable=False)
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True) # article
+    name = db.Column(db.String(255), nullable=False)
+    unit = db.Column(db.String(255), nullable=False)
+    cost = db.Column(db.Integer, nullable=False)
+    provider = db.Column(db.String(255), nullable=False)
+    maker = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(255), nullable=False)
+    sale = db.Column(db.Integer, nullable=False)
+    #cost_with_sale = db.Column(db.Float, nullable=False)
+    count = db.Column(db.Integer, nullable=False)
+    disc = db.Column(db.String(255), nullable=False)
+
+class PickupsPoint(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    index = db.Column(db.Integer, unique=True, nullable=False)
+    adress = db.Column(db.String(255), nullable=False)
 
 @app.route('/')
 def index():
@@ -26,6 +53,11 @@ def index():
 def users():
     users = User.query.all()
     return render_template('users.html', users=users)
+
+@app.route('/products')
+def products():
+    products = Product.query.all()
+    return render_template('products.html', products=products)
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_user():
