@@ -20,8 +20,12 @@ class User(db.Model):
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/users')
+def users():
     users = User.query.all()
-    return render_template('index.html', users=users)
+    return render_template('users.html', users=users)
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_user():

@@ -13,12 +13,6 @@ class Role(Enum):
 
 # Определение модели User (должно быть идентично вашему приложению)
 from sqlalchemy import Column, Integer, String, Enum as SQLEnum
-class User(Base): # Используем Base, который мы создадим ниже
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
-    username = Column(String(80), unique=True, nullable=False)
-    password = Column(String(255), nullable=False)
-    role = Column(SQLEnum(Role), nullable=False)
 
 # --- Настройка подключения к базе данных ---
 # ЗАМЕНИТЕ на ваши данные
@@ -32,17 +26,24 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 Base.metadata.create_all(engine) # Создаст таблицу, если ее нет
 
+class User(Base): # Используем Base, который мы создадим ниже
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(80), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    role = Column(SQLEnum(Role), nullable=False)
+
 # --- Логика импорта ---
 
 # Сопоставление ролей из файла с Enum
 role_mapping = {
     'Администратор': Role.ADMIN,
     'Менеджер': Role.MANAGER,
-    'АвтозарегистрированныйКлиент': Role.USER
+    'АвторизованныйКлиент': Role.USER
 }
 
 # Путь к вашему Excel файлу
-file_path = 'users.xlsx'
+file_path = r'data\users.xlsx'
 
 try:
     # Читаем Excel файл в DataFrame
