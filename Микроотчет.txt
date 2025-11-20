@@ -1,0 +1,5 @@
+Создание бд:
+psql -U postgres
+CREATE DATABASE maindb;
+CREATE USER Owner WITH PASSWORD 'pass';
+GRANT ALL PRIVILEGES ON DATABASE maindb TO Owner;

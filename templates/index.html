@@ -1,8 +1,35 @@
-<h1>Users</h1>
+<!--<h1>Users</h1>
 <table>
   <tr><th>ID</th><th>Username</th><th>Role</th></tr>
   {% for user in users %}
   <tr><td>{{user.id}}</td><td>{{user.username}}</td><td>{{user.role.value}}</td></tr>
   {% endfor %}
 </table>
-<a href="/create">Create User</a> | <a href="/status">DB Status</a>
+<a href="/create">Create User</a> | <a href="/status">DB Status</a>--->
+
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../styles/style.css" rel="stylesheet">
+        <title>ToyMarket</title>
+    </head>
+    <body>
+        <img src="../assets/logo.png">
+        <form>
+            <div class="InputBackground">
+                <p class="LogInText">Логин</p>
+                <input id="login" name="login" class="LogInInput" placeholder="Введите логин" required autofocus >
+            </div>
+            <div class="InputBackground">
+                <p class="LogInText">Пароль</p>
+                <input id="pass" name="pass" type="password" class="LogInInput" placeholder="Введите пароль" required>
+            </div>
+            <div class="LogInButtons">
+                <button class="LogInButton" type="submit">Войти</button>
+                <button class="GuestLogInButton">Продолжить как гость</button>
+            </div>
+        </form>
+    </body>
+</html>
