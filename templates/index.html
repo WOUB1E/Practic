@@ -9,20 +9,28 @@
     </head>
     <body>
         <img src="{{ url_for('static', filename='assets/logo.png') }}">
-        <form>
-            <div class="InputBackground">
-                <p class="LogInText">Логин</p>
-                <input id="login" name="login" class="LogInInput" placeholder="Введите логин" required autofocus >
-            </div>
-            <div class="InputBackground">
-                <p class="LogInText">Пароль</p>
-                <input id="pass" name="pass" type="password" class="LogInInput" placeholder="Введите пароль" required>
-            </div>
-            <div class="LogInButtons">
-                <button class="LogInButton" type="submit">Войти</button>
-                <button class="GuestLogInButton">Продолжить как гость</button>
-            </div>
-        </form>
-        <a href="/create">Create User</a> | <a href="/status">DB Status</a> | <a href="/users">Users list</a>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        {% if current_user.is_authenticated %}
+            <a href="/create">Create User</a> | <a href="/status">DB Status</a> | <a href="/users">Users list</a>
+        {% else %}
+            <form id="login" method="post">
+                <div class="InputBackground">
+                    <p class="LogInText">Логин</p>
+                    <input id="username" name="username" class="LogInInput" placeholder="Введите логин" required autofocus >
+                </div>
+                <div class="InputBackground">
+                    <p class="LogInText">Пароль</p>
+                    <input id="password" name="password" type="password" class="LogInInput" placeholder="Введите пароль" required>
+                </div>
+            </form>
+            <button class="LogInButton" type="submit" form="login" >Войти</button>
+            <a href="/products"><button class="GuestLogInButton">Продолжить как гость</button></a>
+        {% endif %}
     </body>
 </html>

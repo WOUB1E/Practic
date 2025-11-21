@@ -9,6 +9,34 @@
     </head>
     <body>
         <img src="{{ url_for('static', filename='assets/logo.png') }}">
+        {% if current_user.is_authenticated %}
+                <table>
+                    <tr>
+                        <td>Поиск:</td>
+                        <td>Сортировка:</td>
+                        <td>Поставщик:</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input>
+                        </td>
+                        <td>
+                            <input>
+                        </td>
+                        <td>
+                            <input>
+                        </td>
+                    </tr>
+                </table>
+                <button>Назад</button>
+                <a href="logout"><button>Выход</button></a>
+            {% if current_user.role.name == "MANAGER" %}
+                <button>Просмотр заказов</button>
+            {% elif current_user.role.name == "ADMIN" %}
+                <button>Добавить товар</button>
+                <button>Просмотр заказов</button>
+            {% endif %}
+        {% endif %}
         {% for product in products %}
         
             {% if product.count == 0 %}
@@ -20,25 +48,55 @@
                     </div>
                 </div>
             {% elif product.sale > 15 %}
-                <div class="productWithSale">
-                    <img src="{{ url_for('static', filename='images/' ~ product.id ~ '.jpg') }}" class="product_img" alt="{{ product.name }}">
-                    <div class="product_disc">
-                        <p><b>Наименование:</b> {{product.name}}</p>
-                        <p><b>Цена:</b> {{product.cost}} <!-- {{product.cost_with_sale}} --> ₽</p>
+                <div class="productWithSale">                        
+                    <table>
+                        <tr>
+                            <img src="{{ url_for('static', filename='images/' ~ product.id ~ '.jpg') }}" class="product_img" alt="{{ product.name }}">
+                        </tr><tr>
+                            <div class="product_disc">
+                            <p><b>Наименование:</b> {{product.name}}</p>
+                            <p><b>Цена:</b> {{product.cost}} <!-- {{product.cost_with_sale}} --> ₽</p>
+                        </tr>
+                        {% if current_user.is_authenticated %}
+                            <tr>
+                            {% if current_user.role.name == "USER" %}
+                                <button>Заказать</button>
+                            {% elif current_user.role.name == "ADMIN" %}
+                                <button>Изменить</button>
+                                <button>Удалить</button>
+                            {% endif %}
+                            </tr>
+                        {% endif %}
+                    </table>
                     </div>
                 </div>
             {% else %}
                 <div class="productCard">
-                    <img src="{{ url_for('static', filename='images/' ~ product.id ~ '.jpg') }}" class="product_img" alt="{{ product.name }}">
-                    <div class="product_disc">
-                        <p><b>Наименование:</b> {{product.name}}</p>
-                        <p><b>Категория:</b> {{product.category}}</p>
-                        <p><b>Производитель:</b> {{product.maker}}</p>
-                        <p><b>Поставщик:</b> {{product.provider}}</p>
-                        <p><b>Цена:</b> {{product.cost}} ₽</p>
-                        <p><b>Еденица:</b> {{product.unit}}.</p>
-                        <p><b>На складе:</b> {{product.count}}</p>
-                    </div>
+                    <table>
+                        <tr>
+                        <img src="{{ url_for('static', filename='images/' ~ product.id ~ '.jpg') }}" class="product_img" alt="{{ product.name }}">
+                        </tr><tr>
+                        <div class="product_disc">
+                            <p><b>Наименование:</b> {{product.name}}</p>
+                            <p><b>Категория:</b> {{product.category}}</p>
+                            <p><b>Производитель:</b> {{product.maker}}</p>
+                            <p><b>Поставщик:</b> {{product.provider}}</p>
+                            <p><b>Цена:</b> {{product.cost}} ₽</p>
+                            <p><b>Еденица:</b> {{product.unit}}.</p>
+                            <p><b>На складе:</b> {{product.count}}</p>
+                        </div>
+                        </tr>
+                        {% if current_user.is_authenticated %}
+                            <tr>
+                            {% if current_user.role.name == "USER" %}
+                                <button>Заказать</button>
+                            {% elif current_user.role.name == "ADMIN" %}
+                                <button>Изменить</button>
+                                <button>Удалить</button>
+                            {% endif %}
+                            </tr>
+                        {% endif %}
+                    </table>
                 </div>
             {% endif %}
         {% endfor %}
